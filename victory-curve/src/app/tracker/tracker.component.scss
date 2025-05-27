@@ -1,0 +1,86 @@
+@use "vc-colors" as *;
+
+:host {
+	.header {
+		display: flex;
+		justify-content: space-between;
+
+		span {
+			font-size: 24px;
+		}
+	}
+
+	mat-divider {
+		margin: 16px 0;
+	}
+
+	.current-prediction {
+		display: flex;
+		margin-bottom: 8px;
+		width: 100%;
+
+		div.box {
+			height: 30px;
+			text-align: center;
+			font-size: 24px;
+			color: black;
+		}
+
+		div.blue {
+			background-color: $lightBlue;
+			border: 1px solid $darkBlue;
+			border-top-left-radius: 8px;
+			border-bottom-left-radius: 8px;
+		}
+
+		div.red {
+			background-color: $lightRed;
+			border: 1px solid $darkRed;
+			border-top-right-radius: 8px;
+			border-bottom-right-radius: 8px;
+		}
+	}
+
+	.content {
+		display: flex;
+		justify-content: space-between;
+		gap: 8px;
+
+		.red {
+			justify-content: right;
+		}
+
+		.team-column {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+
+			.title {
+				font-size: 20px;
+			}
+
+			.right {
+				margin-left: auto;
+			}
+
+			.flip {
+				flex-direction: row-reverse;
+			}
+
+			.champion-section {
+				align-items: center;
+				display: flex;
+				gap: 8px;
+
+				span {
+					font-size: 16px;
+				}
+			}
+
+			.items-section {
+				align-items: center;
+				display: flex;
+			}
+		}
+	}
+}

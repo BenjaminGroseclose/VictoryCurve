@@ -1,0 +1,80 @@
+<div class="header">
+	<span>Tracking Game</span>
+	<!-- Add data refresh timer -->
+
+	<button color="warn" mat-stroked-button routerLink="/">Close</button>
+</div>
+<mat-divider></mat-divider>
+@if (initialLoad()) {
+	<h3>Waiting for initial data</h3>
+	<mat-spinner></mat-spinner>
+} @else {
+	@if (currentPrediction(); as currentPrediction) {
+		@let bluePercent = currentPrediction.blue * 100;
+		@let redPercent = currentPrediction.red * 100;
+
+		<div class="current-prediction">
+			<div class="blue box" [style.width.%]="bluePercent">{{ currentPrediction.blue | percent }}</div>
+			<div class="red box" [style.width.%]="redPercent">{{ currentPrediction.red | percent }}</div>
+		</div>
+	}
+
+	@if (predictions().length > 0) {
+		<mat-tab-group [preserveContent]="true">
+			<mat-tab label="Game">
+				<div class="content">
+					<div class="team-column">
+						<div class="title">Blue</div>
+
+						@for (champion of blueChampions(); track $index) {
+							<div class="champion-section">
+								@let championImage = "https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/" + champion.image;
+
+								<img [src]="championImage" width="50" height="50" />
+								<span
+									>{{ champion.name }} <i>({{ champion.summonerName }})</i></span
+								>
+							</div>
+							<div class="items-section">
+								@for (item of getChampionItem(champion.summonerName); track $index) {
+									@let itemImage = "https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/" + item.image;
+									<img [src]="itemImage" width="30" height="30" />
+								}
+							</div>
+						}
+
+						<!-- Objectives -->
+					</div>
+					<div class="team-column red">
+						<div class="title right">Red</div>
+
+						@for (champion of redChampions(); track $index) {
+							<div class="champion-section flip">
+								@let championImage = "https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/" + champion.image;
+
+								<img [src]="championImage" width="50" height="50" />
+								<span
+									>{{ champion.name }} <i>({{ champion.summonerName }})</i></span
+								>
+							</div>
+							<div class="items-section flip">
+								@for (item of getChampionItem(champion.summonerName); track $index) {
+									@let itemImage = "https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/" + item.image;
+									<img [src]="itemImage" width="30" height="30" />
+								}
+							</div>
+						}
+
+						<!-- Objectives -->
+					</div>
+				</div>
+			</mat-tab>
+			<mat-tab label="Win %">
+				<vc-win-percent-graph [predictions]="predictions()"></vc-win-percent-graph>
+			</mat-tab>
+			<mat-tab label="Gold Graph">
+				<vc-gold-graph [gold]="goldTracker()"></vc-gold-graph>
+			</mat-tab>
+		</mat-tab-group>
+	}
+}
